@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Base theme variables */
+  :root {
+    --background: 248 250 252;
+    --foreground: 17 24 39;
+    --card: 255 255 255;
+    --card-foreground: 17 24 39;
+    --muted: 241 245 249;
+    --muted-foreground: 100 116 139;
+    --border: 226 232 240;
+  }
+
+  .dark {
+    --background: 17 24 39;
+    --foreground: 248 250 252;
+    --card: 31 41 55;
+    --card-foreground: 248 250 252;
+    --muted: 31 41 55;
+    --muted-foreground: 148 163 184;
+    --border: 51 65 85;
+  }
+
+  body {
+    @apply bg-[rgb(var(--background))] text-[rgb(var(--foreground))] antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-[rgb(var(--background))];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gold/30 rounded-full hover:bg-gold/50 transition-colors;
+  }
+
+  /* Selection color */
+  ::selection {
+    @apply bg-gold/20 text-[rgb(var(--foreground))];
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-[rgb(var(--background))];
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 shadow-xl;
+  }
+
+  .dark .glass {
+    @apply bg-primary/10 backdrop-blur-md border border-primary/20 shadow-xl;
+  }
+
+  .glass-card {
+    @apply bg-white/80 dark:bg-primary/80 backdrop-blur-lg border border-gold/10 
+           shadow-lg hover:shadow-xl transition-all duration-300;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-gold via-accent to-gold bg-clip-text text-transparent;
+  }
+
+  /* Container utility */
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 1280px;
+  }
+
+  /* Text utilities with proper theme support */
+  .text-primary {
+    @apply text-[rgb(var(--foreground))];
+  }
+
+  .text-secondary {
+    @apply text-[rgb(var(--muted-foreground))];
+  }
+
+  .bg-theme {
+    @apply bg-[rgb(var(--background))];
+  }
+
+  .bg-card {
+    @apply bg-[rgb(var(--card))];
+  }
+
+  .border-theme {
+    @apply border-[rgb(var(--border))];
+  }
+}
+
+@layer utilities {
+  .delay-1000 {
+    animation-delay: 1000ms;
+  }
+}
