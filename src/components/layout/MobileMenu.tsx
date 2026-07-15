@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { NAV_ITEMS } from '@/constants/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -8,6 +8,7 @@ interface MobileMenuProps {
 
 export function MobileMenu({ isOpen }: MobileMenuProps) {
   const location = useLocation();
+  const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
 
   // Trap focus in mobile menu when open
@@ -22,6 +23,15 @@ export function MobileMenu({ isOpen }: MobileMenuProps) {
     }
   }, [isOpen]);
 
+  const handleNavigation = (path: string) => {
+    if (path === location.pathname) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate(path);
+      // The useEffect in Header will handle scrolling
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -34,18 +44,18 @@ export function MobileMenu({ isOpen }: MobileMenuProps) {
     >
       <div className="container mx-auto px-4 py-4 space-y-2">
         {NAV_ITEMS.map(item => (
-          <Link
+          <button
             key={item.path}
-            to={item.path}
-            className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
+            onClick={() => handleNavigation(item.path)}
+            className={`block w-full text-left px-4 py-3 rounded-lg text-base font-medium transition-colors ${
               location.pathname === item.path
                 ? 'bg-gold/10 text-gold'
-                : 'text-primary/70 dark:text-white/70 hover:bg-gold/5 hover:text-primary dark:hover:text-white'
+                : 'text-[rgb(var(--foreground))]/70 hover:bg-gold/5 hover:text-[rgb(var(--foreground))]'
             }`}
             aria-current={location.pathname === item.path ? 'page' : undefined}
           >
             {item.label}
-          </Link>
+          </button>
         ))}
       </div>
     </div>

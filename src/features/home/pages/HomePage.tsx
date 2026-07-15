@@ -12,7 +12,7 @@ export default function HomePage() {
       <Hero data={hero} />
       <Skills skills={skills} />
       <FeaturedProjects projects={featuredProjects} />
-      <Testimonials testimonials={testimonials} />
+      {/* <Testimonials testimonials={testimonials} /> */}
     </div>
   );
 }

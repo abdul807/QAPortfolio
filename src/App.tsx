@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
 import Layout from '@/components/layout/Layout';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 
@@ -9,9 +9,21 @@ const AboutPage = lazy(() => import('@/features/about/pages/AboutPage'));
 const ProjectsPage = lazy(() => import('@/features/projects/pages/ProjectsPage'));
 const ContactPage = lazy(() => import('@/features/contact/pages/ContactPage'));
 
+// Scroll to top component
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Layout>
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>

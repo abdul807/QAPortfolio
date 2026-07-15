@@ -1,13 +1,25 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { NAV_ITEMS } from '@/constants/navigation';
 import { SOCIAL_LINKS } from '@/constants/social';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
+
+  const handleNavigation = (path: string) => {
+    // If we're already on the page, just scroll to top
+    if (window.location.pathname === path) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Navigate and scroll to top
+      navigate(path);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
     <footer
-      className="bg-primary/5 dark:bg-white/5 border-t border-gold/10"
+      className="bg-[rgb(var(--background))]/5 dark:bg-[rgb(var(--background))]/5 border-t border-gold/10"
       role="contentinfo"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -16,30 +28,34 @@ export function Footer() {
             <h2 className="text-2xl font-display font-bold gradient-text mb-4">
               Portfolio
             </h2>
-            <p className="text-primary/60 dark:text-white/60 max-w-md">
+            <p className="text-[rgb(var(--foreground))]/60 max-w-md">
               Quality Assurance Engineer, Vibe Coder & Project Manager. Building
               exceptional digital experiences with precision and creativity.
             </p>
           </div>
 
           <div>
-            <h3 className="font-semibold mb-4">Navigation</h3>
+            <h3 className="font-semibold mb-4 text-[rgb(var(--foreground))]">
+              Navigation
+            </h3>
             <ul className="space-y-2">
               {NAV_ITEMS.map(item => (
                 <li key={item.path}>
-                  <Link
-                    to={item.path}
-                    className="text-primary/60 dark:text-white/60 hover:text-gold transition-colors"
+                  <button
+                    onClick={() => handleNavigation(item.path)}
+                    className="text-[rgb(var(--foreground))]/60 hover:text-gold transition-colors cursor-pointer bg-transparent border-none font-inherit"
                   >
                     {item.label}
-                  </Link>
+                  </button>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h3 className="font-semibold mb-4">Connect</h3>
+            <h3 className="font-semibold mb-4 text-[rgb(var(--foreground))]">
+              Connect
+            </h3>
             <ul className="space-y-2">
               {SOCIAL_LINKS.map(link => (
                 <li key={link.name}>
@@ -47,7 +63,7 @@ export function Footer() {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary/60 dark:text-white/60 hover:text-gold transition-colors"
+                    className="text-[rgb(var(--foreground))]/60 hover:text-gold transition-colors"
                     aria-label={link.name}
                   >
                     {link.name}
@@ -58,7 +74,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-primary/10 dark:border-white/10 text-center text-sm text-primary/40 dark:text-white/40">
+        <div className="mt-12 pt-8 border-t border-[rgb(var(--border))] text-center text-sm text-[rgb(var(--foreground))]/40">
           <p>&copy; {currentYear} Portfolio. All rights reserved.</p>
         </div>
       </div>

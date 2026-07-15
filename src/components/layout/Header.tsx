@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ThemeToggle } from '../ui/ThemeToggle';
 import { MobileMenu } from './MobileMenu';
 import { NAV_ITEMS } from '@/constants/navigation';
@@ -8,6 +8,7 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,10 +18,21 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change
+  // Close mobile menu on route change and scroll to top
   useEffect(() => {
     setIsMobileMenuOpen(false);
+    // Scroll to top on route change
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [location]);
+
+  const handleNavigation = (path: string) => {
+    if (path === location.pathname) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate(path);
+      // The useEffect will handle scrolling
+    }
+  };
 
   return (
     <header
@@ -33,26 +45,26 @@ export function Header() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <Link
-            to="/"
-            className="text-xl md:text-2xl font-display font-bold gradient-text hover:opacity-80 transition-opacity"
+          <button
+            onClick={() => handleNavigation('/')}
+            className="text-xl md:text-2xl font-display font-bold gradient-text hover:opacity-80 transition-opacity bg-transparent border-none cursor-pointer"
             aria-label="Home"
           >
             Portfolio
-          </Link>
+          </button>
 
           <nav
             className="hidden md:flex items-center space-x-8"
             aria-label="Main navigation"
           >
             {NAV_ITEMS.map(item => (
-              <Link
+              <button
                 key={item.path}
-                to={item.path}
-                className={`text-sm font-medium transition-colors hover:text-gold relative group ${
+                onClick={() => handleNavigation(item.path)}
+                className={`text-sm font-medium transition-colors hover:text-gold relative group bg-transparent border-none cursor-pointer ${
                   location.pathname === item.path
                     ? 'text-gold'
-                    : 'text-primary/70 dark:text-white/70'
+                    : 'text-[rgb(var(--foreground))]/70 dark:text-[rgb(var(--foreground))]/70'
                 }`}
                 aria-current={location.pathname === item.path ? 'page' : undefined}
               >
@@ -64,7 +76,7 @@ export function Header() {
                       : 'scale-x-0 group-hover:scale-x-100'
                   }`}
                 />
-              </Link>
+              </button>
             ))}
           </nav>
 
@@ -72,7 +84,7 @@ export function Header() {
             <ThemeToggle />
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-gold/10 transition-colors"
+              className="md:hidden p-2 rounded-lg hover:bg-gold/10 transition-colors text-[rgb(var(--foreground))]"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
               aria-label="Toggle menu"

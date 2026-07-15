@@ -7,8 +7,7 @@ export function useHomeData() {
     name: 'Usman Abdul Matin',
     title: 'Quality Assurance Engineer, Project Manager & Vibe Coder',
     description:
-      'Passionate about quality, creativity, and building exceptional digital experiences. 5+ years of experience in QA, vibe coding, and project management.',
-    badge: 'Available for collaborations',
+      'Results-driven Quality Assurance professional with 5+ years of experience ensuring software quality, leading cross-functional projects, and leveraging AI-powered development to accelerate delivery. Recognized for identifying critical issues before they reach users, improving development workflows, and delivering exceptional digital experiences that exceed business and customer expectations',
   };
 
   const skills: Skill[] = [
